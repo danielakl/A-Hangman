@@ -1,0 +1,26 @@
+<resources>
+    <!-- App strings -->
+    <string translatable="false" name="app_name">Hangman</string>
+
+    <!-- Main menu strings -->
+    <string name="menu_option_play">Play</string>
+    <string name="menu_option_tutorial">How to Play</string>
+    <string name="menu_option_settings">Settings</string>
+    <string name="menu_option_exit">Exit</string>
+
+    <!-- Game strings -->
+    <string name="title_activity_game">Game activity</string>
+
+    <!-- Settings strings -->
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="setting_title_language">Language</string>
+    <string-array name="setting_languages_titles">
+        <item>English</item>
+        <item>Norsk</item>
+    </string-array>
+    <string-array name="setting_languages_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>
+</resources>

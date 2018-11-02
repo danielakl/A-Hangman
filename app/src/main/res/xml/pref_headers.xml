@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- These settings headers are only used on tablets. -->
+    <header
+        android:title="@string/setting_title_language"
+        android:fragment="no.daniel.hangman.ui.SettingsActivity$SettingsFragment" />
+</preference-headers>
