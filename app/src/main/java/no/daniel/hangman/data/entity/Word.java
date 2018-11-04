@@ -1,6 +1,6 @@
 package no.daniel.hangman.data.entity;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import no.daniel.hangman.util.Language;
 

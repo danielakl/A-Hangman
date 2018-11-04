@@ -3,8 +3,8 @@ package no.daniel.hangman.ui;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Process;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Menu;
@@ -127,6 +127,7 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+//    TODO: Consider moving this function as it is callable from other activities.
     private void exit() {
         // Ref: https://stackoverflow.com/questions/17719634/how-to-exit-an-android-app-using-code
         // Ref: https://stackoverflow.com/questions/7075349/android-clear-activity-stack

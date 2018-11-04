@@ -2,13 +2,13 @@ package no.daniel.hangman.ui;
 
 import android.annotation.SuppressLint;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
+import androidx.core.app.NavUtils;
 
 import no.daniel.hangman.R;
 import no.daniel.hangman.game.Game;
