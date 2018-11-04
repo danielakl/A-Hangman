@@ -1,6 +1,7 @@
 package no.daniel.hangman.ui;
 
 import android.annotation.SuppressLint;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,12 +11,16 @@ import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
 import no.daniel.hangman.R;
+import no.daniel.hangman.game.Game;
+import no.daniel.hangman.game.GameManager;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
 public class GameActivity extends AppCompatActivity {
+    private static GameManager gameManager;
+    private Game game;
 
     /**
      * Some older devices needs a small delay between UI widget updates
@@ -57,10 +62,8 @@ public class GameActivity extends AppCompatActivity {
         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(view -> toggle());
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
-//        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        gameManager = GameManager.initialize(PreferenceManager.getDefaultSharedPreferences(this));
+        game = gameManager.createGame();
     }
 
     @Override
