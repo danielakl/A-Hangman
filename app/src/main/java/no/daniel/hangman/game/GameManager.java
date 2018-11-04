@@ -21,8 +21,19 @@ public final class GameManager {
      */
     public static GameManager initialize(SharedPreferences preferences) {
         if (INSTANCE == null) {
-            int index = preferences.getInt("list_language", 0);
-            INSTANCE = new GameManager(Language.values()[index]);
+            int index;
+            try {
+                String sIndex = preferences.getString("list_language", "0");
+                if (sIndex == null) {
+                    index = 0;
+                } else {
+                    index = Integer.parseInt(sIndex);
+                }
+            } catch (NumberFormatException nfe) {
+                index = 0;
+            }
+            Language[] languages = Language.values();
+            INSTANCE = new GameManager(languages[index % languages.length]);
         }
         return INSTANCE;
     }
