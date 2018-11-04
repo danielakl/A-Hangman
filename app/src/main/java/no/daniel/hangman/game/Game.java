@@ -59,7 +59,8 @@ public final class Game {
     /**
      * Make a guess at the word.
      * @param guess the character to guess.
-     * @return true if the guessed character is in the word, false if not.
+     * @return true if the guessed character is in the word,
+     * false if not or out of chances or already won.
      */
     public boolean guess(char guess) {
         boolean correctGuess = false;
@@ -133,12 +134,29 @@ public final class Game {
         return roundsWon;
     }
 
+    /**
+     * The number of chances left.
+     * @return chances left.
+     */
+    public int getChancesLeft() {
+        return chancesLeft;
+    }
+
+    /**
+     * True if the user have won the round, false if not.
+     * @return true or false.
+     */
+    public boolean hasWon() {
+        return hasWon;
+    }
+
     private boolean reset() {
         this.currentWord = queue.poll();
         if (currentWord == null) {
             return false;
         }
         this.displayWord = initDisplayWord(currentWord.content.length());
+        this.chancesLeft = chances;
         guess(' ');
         this.chancesLeft = chances;
         this.hasWon = false;
