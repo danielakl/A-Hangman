@@ -66,6 +66,6 @@ public final class GameManager {
     }
 
     private static List<Word> getWords(Language language) {
-        return new WordDAO().get(language.name().toLowerCase());
+        return new WordDAO().get(language, 0);
     }
 }
