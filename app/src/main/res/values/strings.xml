@@ -11,6 +11,37 @@
     <!-- Game strings -->
     <string name="title_activity_game">Game activity</string>
 
+    <string translatable="false" name="key_a">a</string>
+    <string translatable="false" name="key_b">b</string>
+    <string translatable="false" name="key_c">c</string>
+    <string translatable="false" name="key_d">d</string>
+    <string translatable="false" name="key_e">e</string>
+    <string translatable="false" name="key_f">f</string>
+    <string translatable="false" name="key_g">g</string>
+    <string translatable="false" name="key_h">h</string>
+    <string translatable="false" name="key_i">i</string>
+    <string translatable="false" name="key_j">j</string>
+    <string translatable="false" name="key_k">k</string>
+    <string translatable="false" name="key_l">l</string>
+    <string translatable="false" name="key_m">m</string>
+    <string translatable="false" name="key_n">n</string>
+    <string translatable="false" name="key_o">o</string>
+    <string translatable="false" name="key_p">p</string>
+    <string translatable="false" name="key_q">q</string>
+    <string translatable="false" name="key_r">r</string>
+    <string translatable="false" name="key_s">s</string>
+    <string translatable="false" name="key_t">t</string>
+    <string translatable="false" name="key_u">u</string>
+    <string translatable="false" name="key_v">v</string>
+    <string translatable="false" name="key_w">w</string>
+    <string translatable="false" name="key_x">x</string>
+    <string translatable="false" name="key_y">y</string>
+    <string translatable="false" name="key_z">z</string>
+
+    <string translatable="false" name="key_æ">æ</string>
+    <string translatable="false" name="key_ø">ø</string>
+    <string translatable="false" name="key_å">å</string>
+
     <!-- Settings strings -->
     <string name="title_activity_settings">Settings</string>
 
