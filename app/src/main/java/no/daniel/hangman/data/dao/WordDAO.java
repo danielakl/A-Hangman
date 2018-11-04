@@ -6,7 +6,9 @@ import java.util.List;
 import no.daniel.hangman.data.entity.Word;
 import no.daniel.hangman.util.Language;
 
+// TODO: Make WordFileDAO for fetching from file
 public class WordDAO {
+    // TODO: Actually fetch words from database
     public List<Word> get(Language language, int limit) {
         List<Word> engWords = new ArrayList<>();
         List<Word> norWords = new ArrayList<>();
@@ -42,15 +44,13 @@ public class WordDAO {
         }
     }
 
-    public Word create(Word... entity) {
+    // TODO: Actually insert words into database.
+    public Word create(Word... words) {
         return null;
     }
 
-    public long delete() {
-        return 0;
-    }
-
-    public boolean delete(Word entity) {
+    // TODO: Actually delete words from database.
+    public boolean delete(Word... words) {
         return false;
     }
 }
