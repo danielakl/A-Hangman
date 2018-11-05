@@ -107,10 +107,9 @@ public class GameActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         langIndex = null;
         game.close();
-        finish();
+        super.onBackPressed();
     }
 
     // TODO: This might not be called when going back and changing the settings or game.close() is broken.
