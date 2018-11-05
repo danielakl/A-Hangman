@@ -20,20 +20,24 @@ public final class GameManager {
      * @return an instance of GameManager.
      */
     public static GameManager initialize(SharedPreferences preferences) {
-        if (INSTANCE == null) {
-            int index;
-            try {
-                String sIndex = preferences.getString("list_language", "0");
-                if (sIndex == null) {
-                    index = 0;
-                } else {
-                    index = Integer.parseInt(sIndex);
-                }
-            } catch (NumberFormatException nfe) {
+        int index;
+        try {
+            String sIndex = preferences.getString("list_language", "0");
+            if (sIndex == null) {
                 index = 0;
+            } else {
+                index = Integer.parseInt(sIndex);
             }
-            Language[] languages = Language.values();
-            INSTANCE = new GameManager(languages[index % languages.length]);
+        } catch (NumberFormatException nfe) {
+            index = 0;
+        }
+        Language[] languages = Language.values();
+        Language language = languages[index % languages.length];
+        if (INSTANCE == null) {
+            INSTANCE = new GameManager(language);
+        }
+        if (INSTANCE.language != language) {
+            INSTANCE.setLanguage(language);
         }
         return INSTANCE;
     }
@@ -50,10 +54,8 @@ public final class GameManager {
      * @param language the language a game will use.
      */
     public void setLanguage(Language language) {
-        if (this.language != language) {
-            this.language = language;
-            words = getWords(language);
-        }
+        this.language = language;
+        words = getWords(language);
     }
 
     /**
