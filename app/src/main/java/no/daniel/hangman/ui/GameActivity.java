@@ -39,6 +39,8 @@ public class GameActivity extends AppCompatActivity {
 
     private View contentView;
     private TextView wordView;
+    private TextView roundsView;
+    private TextView roundsWonView;
 
     private final Handler hideHandler = new Handler();
     private final Runnable hideRunnable2 = new Runnable() {
@@ -69,6 +71,8 @@ public class GameActivity extends AppCompatActivity {
         visible = true;
         contentView = findViewById(R.id.fullscreen_content);
         wordView = findViewById(R.id.word_view);
+        roundsView = findViewById(R.id.rounds_view);
+        roundsWonView = findViewById(R.id.rounds_won_view);
 
         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(view -> toggle());
@@ -101,6 +105,8 @@ public class GameActivity extends AppCompatActivity {
             // Initialize game logic.
             gameManager = GameManager.initialize(preferences);
             game = gameManager.createGame();
+            roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
+            roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
             updateWord();
         }
     }
@@ -149,6 +155,8 @@ public class GameActivity extends AppCompatActivity {
             if (game.guess(button.getText().charAt(0))) {
                 updateWord();
             }
+            roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
+            roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
         }
     }
 

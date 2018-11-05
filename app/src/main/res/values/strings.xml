@@ -11,6 +11,9 @@
     <!-- Game strings -->
     <string name="title_activity_game">Game activity</string>
 
+    <string name="rounds_progress">Rounds: %1$d/%2$d</string>
+    <string name="rounds_won">Rounds won: %d</string>
+
     <string translatable="false" name="key_a">a</string>
     <string translatable="false" name="key_b">b</string>
     <string translatable="false" name="key_c">c</string>

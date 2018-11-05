@@ -8,4 +8,6 @@
     <string name="title_activity_game">Spill aktivitet</string>
     <string name="title_activity_settings">Innstillinger</string>
     <string name="setting_title_language">Språk</string>
+    <string name="rounds_won">Runder vunnet: %d</string>
+    <string name="rounds_progress">Runder: %1$d/%2$d</string>
 </resources>
