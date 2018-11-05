@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:keepScreenOn="true">
-        
+
         <!-- ref: https://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds -->
         <TextView
             android:id="@+id/word_view"
@@ -24,13 +24,14 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
+            android:autoSizeMaxTextSize="75sp"
+            android:autoSizeMinTextSize="20sp"
+            android:autoSizeStepGranularity="2sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center_horizontal"
+            android:letterSpacing="0.2"
             android:lines="1"
             android:textStyle="bold"
-            android:autoSizeTextType="uniform"
-            android:autoSizeMinTextSize="20sp"
-            android:autoSizeMaxTextSize="75sp"
-            android:autoSizeStepGranularity="2sp"
-            android:letterSpacing="0.2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
