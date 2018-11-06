@@ -95,19 +95,7 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void exit() {
-        // Ref: https://stackoverflow.com/questions/17719634/how-to-exit-an-android-app-using-code
-        // Ref: https://stackoverflow.com/questions/7075349/android-clear-activity-stack
-        // Stop async code.
-        hideHandler.removeCallbacks(hideRunnable);
-        hideHandler.removeCallbacks(hideRunnable2);
-        // Clear activity stack.
-        Intent intent = new Intent(Intent.ACTION_MAIN);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.addCategory(Intent.CATEGORY_HOME);
-        startActivity(intent);
-        // Kill process and JVM.
-        Process.killProcess(Process.myPid());
-        System.exit(1);
+        finishAndRemoveTask();
     }
 
     private void toggle() {
