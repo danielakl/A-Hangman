@@ -24,10 +24,11 @@ public class MainMenuActivity extends AppCompatActivity {
      * and a change of the status and navigation bar.
      */
     private static final int UI_ANIMATION_DELAY = 300;
-    private final Handler hideHandler = new Handler();
+
     private View contentView;
+
     private boolean visible;
-    private final Runnable hideRunnable = this::hide;
+    private final Handler hideHandler = new Handler();
     private final Runnable hideRunnable2 = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -45,13 +46,6 @@ public class MainMenuActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    private final Runnable showRunnable2 = () -> {
-        // Delayed display of UI elements
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.show();
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,38 +61,10 @@ public class MainMenuActivity extends AppCompatActivity {
         hide();
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.bar_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case R.id.menu_settings:
-                startSettings();
-                break;
-            case R.id.menu_exit:
-                exit();
-            default:
-                return false;
-        }
-        return true;
-    }
-
+    /**
+     * Called when interacting with any main menu button.
+     * @param button the button that was pressed.
+     */
     public void onButtonTouch(View button) {
         switch (button.getId()) {
             case R.id.play_button:
@@ -154,14 +120,9 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void hide() {
         // Hide UI first
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
         visible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
-        hideHandler.removeCallbacks(showRunnable2);
         hideHandler.postDelayed(hideRunnable2, UI_ANIMATION_DELAY);
     }
 
@@ -174,17 +135,5 @@ public class MainMenuActivity extends AppCompatActivity {
 
         // Schedule a runnable to display UI elements after a delay
         hideHandler.removeCallbacks(hideRunnable2);
-        hideHandler.postDelayed(showRunnable2, UI_ANIMATION_DELAY);
-
-        // Auto hide.
-    }
-
-    /**
-     * Schedules a call to hide() in delay milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        hideHandler.removeCallbacks(hideRunnable);
-        hideHandler.postDelayed(hideRunnable, delayMillis);
     }
 }
