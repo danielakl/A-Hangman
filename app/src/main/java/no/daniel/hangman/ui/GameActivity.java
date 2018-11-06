@@ -3,6 +3,7 @@ package no.daniel.hangman.ui;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import androidx.appcompat.app.ActionBar;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.MenuItem;
 import android.view.ViewGroup;
@@ -42,6 +45,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView roundsView;
     private TextView roundsWonView;
 
+    private boolean visible;
     private final Handler hideHandler = new Handler();
     private final Runnable hideRunnable2 = new Runnable() {
         @SuppressLint("InlinedApi")
@@ -60,8 +64,13 @@ public class GameActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         }
     };
-    private boolean visible;
-    private final Runnable hideRunnable = this::hide;
+    private final Runnable showRunnable2 = () -> {
+        // Delayed display of UI elements
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.show();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +101,12 @@ public class GameActivity extends AppCompatActivity {
             // Setup keyboard.
             int index = (langIndex == null) ? 0 : Integer.parseInt(langIndex);
             int[] keyboards = {R.layout.keyboard_english, R.layout.keyboard_norwegian};
+
+            // Reset keyboard
+            View keyboard = findViewById(R.id.keyboard);
+            if (keyboard != null) {
+                ((ViewGroup) keyboard.getParent()).removeView(keyboard);
+            }
             LayoutInflater.from(this).inflate(keyboards[index % keyboards.length], (ViewGroup) contentView);
 
             // Initialize game logic.
@@ -121,14 +136,28 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.bar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button.
-            NavUtils.navigateUpFromSameTask(this);
-            return true;
+        super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // This ID represents the Home or Up button.
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            case R.id.menu_settings:
+                startSettings();
+                return true;
+            case R.id.menu_exit:
+                exit();
+            default:
+                return false;
         }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -166,6 +195,15 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         wordView.setText(sb.toString());
+    }
+
+    private void startSettings() {
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
+        startActivity(intent);
+    }
+
+    private void exit() {
+        finishAndRemoveTask();
     }
 
     private void toggle() {
