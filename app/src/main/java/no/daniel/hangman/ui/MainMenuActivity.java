@@ -19,7 +19,6 @@ import no.daniel.hangman.R;
  * go to settings, learn how to play or exit the game.
  */
 public class MainMenuActivity extends AppCompatActivity {
-
     /**
      * Some older devices needs a small delay between UI widget updates
      * and a change of the status and navigation bar.
@@ -59,12 +58,13 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
-        visible = true;
+        visible = false;
         contentView = findViewById(R.id.fullscreen_content);
-
 
         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(view -> toggle());
+
+        hide();
     }
 
     @Override
@@ -105,6 +105,7 @@ public class MainMenuActivity extends AppCompatActivity {
                 startGame();
                 break;
             case R.id.tutorial_button:
+                // TODO: Implement popup with a description of how to play.
                 break;
             case R.id.settings_button:
                 startSettings();
@@ -127,7 +128,6 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-//    TODO: Consider moving this function as it is callable from other activities.
     private void exit() {
         // Ref: https://stackoverflow.com/questions/17719634/how-to-exit-an-android-app-using-code
         // Ref: https://stackoverflow.com/questions/7075349/android-clear-activity-stack

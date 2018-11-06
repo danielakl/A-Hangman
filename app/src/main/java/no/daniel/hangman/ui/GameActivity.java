@@ -68,7 +68,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        visible = true;
+        visible = false;
         contentView = findViewById(R.id.fullscreen_content);
         wordView = findViewById(R.id.word_view);
         roundsView = findViewById(R.id.rounds_view);
@@ -76,16 +76,8 @@ public class GameActivity extends AppCompatActivity {
 
         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(view -> toggle());
-    }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
-        delayedHide(100);
+        hide();
     }
 
     @Override
@@ -111,6 +103,9 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Called when back button is pressed.
+     */
     @Override
     public void onBackPressed() {
         langIndex = null;
@@ -118,7 +113,6 @@ public class GameActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    // TODO: This might not be called when going back and changing the settings or game.close() is broken.
     @Override
     protected void onStop() {
         super.onStop();
@@ -157,6 +151,7 @@ public class GameActivity extends AppCompatActivity {
             }
             roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
             roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
+            // TODO: checkWin method -> Check game.hasWon(), if true play sound byte, maybe animation, then start next round.
         }
     }
 
@@ -190,6 +185,7 @@ public class GameActivity extends AppCompatActivity {
         visible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
+        hideHandler.removeCallbacks(showRunnable2);
         hideHandler.postDelayed(hideRunnable2, UI_ANIMATION_DELAY);
     }
 
@@ -202,14 +198,6 @@ public class GameActivity extends AppCompatActivity {
 
         // Remove hide runnable.
         hideHandler.removeCallbacks(hideRunnable2);
-    }
-
-    /**
-     * Schedules a call to hide() in delay milliseconds, canceling any
-     * previously scheduled calls.
-     */
-    private void delayedHide(int delayMillis) {
-        hideHandler.removeCallbacks(hideRunnable);
-        hideHandler.postDelayed(hideRunnable, delayMillis);
+        hideHandler.postDelayed(showRunnable2, UI_ANIMATION_DELAY);
     }
 }
