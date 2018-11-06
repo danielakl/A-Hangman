@@ -85,12 +85,12 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void startGame() {
-        Intent intent = new Intent("no.daniel.hangman.StartGame");
+        Intent intent = new Intent(getApplicationContext(), GameActivity.class);
         startActivity(intent);
     }
 
     private void startSettings() {
-        Intent intent = new Intent("no.daniel.hangman.Settings");
+        Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
         startActivity(intent);
     }
 
