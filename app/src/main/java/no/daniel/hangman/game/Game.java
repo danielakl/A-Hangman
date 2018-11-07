@@ -155,18 +155,20 @@ public final class Game {
         if (currentWord == null) {
             return false;
         }
-        this.displayWord = initDisplayWord(currentWord.content.length());
-        this.chancesLeft = chances;
-        guess(' ');
+        this.displayWord = initDisplayWord(currentWord.content);
         this.chancesLeft = chances;
         this.hasWon = false;
         return true;
     }
 
-    private static String initDisplayWord(int length) {
+    private static String initDisplayWord(String word) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < length; i++) {
-            sb.append('?');
+        for (char letter : word.toCharArray()) {
+            if (letter == ' ' || letter == '-') {
+                sb.append(letter);
+            } else {
+                sb.append('?');
+            }
         }
         return sb.toString();
     }

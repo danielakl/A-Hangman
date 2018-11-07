@@ -61,15 +61,7 @@ public class GameActivity extends FullscreenActivity {
             langIndex = language;
 
             // Setup keyboard.
-            int index = (langIndex == null) ? 0 : Integer.parseInt(langIndex);
-            int[] keyboards = {R.layout.keyboard_english, R.layout.keyboard_norwegian};
-
-            // Reset keyboard
-            View keyboard = findViewById(R.id.keyboard);
-            if (keyboard != null) {
-                ((ViewGroup) keyboard.getParent()).removeView(keyboard);
-            }
-            LayoutInflater.from(this).inflate(keyboards[index % keyboards.length], (ViewGroup) contentView);
+            setupKeyboard();
 
             // Initialize game logic.
             gameManager = GameManager.initialize(preferences);
@@ -142,8 +134,36 @@ public class GameActivity extends FullscreenActivity {
             }
             roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
             roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
-            // TODO: checkWin method -> Check game.hasWon(), if true play sound byte, maybe animation, then start next round.
+            checkGameState();
         }
+    }
+
+    private void checkGameState() {
+        if (game == null || game.hasWon() || game.getChancesLeft() <= 0) {
+            if (game == null) {
+                // TODO: Play victory sound
+                // TODO: Display victory dialog -> send to main menu
+                finish();
+            } else if (game.hasWon()) {
+                // TODO: Play win sound
+            } else {
+                // TODO: Play loss sound
+            }
+            // TODO: Wait a short while
+            game = game.nextGame();
+            updateWord();
+            setupKeyboard();
+        }
+    }
+
+    private void setupKeyboard() {
+        int index = (langIndex == null) ? 0 : Integer.parseInt(langIndex);
+        int[] keyboards = {R.layout.keyboard_english, R.layout.keyboard_norwegian};
+        View keyboard = findViewById(R.id.keyboard);
+        if (keyboard != null) {
+            ((ViewGroup) keyboard.getParent()).removeView(keyboard);
+        }
+        LayoutInflater.from(this).inflate(keyboards[index % keyboards.length], (ViewGroup) contentView);
     }
 
     private void updateWord() {
