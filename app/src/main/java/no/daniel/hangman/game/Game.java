@@ -81,6 +81,9 @@ public final class Game {
             }
             if (!correctGuess) {
                 chancesLeft--;
+                if (chancesLeft == 0) {
+                    roundsPlayed++;
+                }
             }
         }
         return correctGuess;
@@ -132,6 +135,14 @@ public final class Game {
      */
     public int getRoundsWon() {
         return roundsWon;
+    }
+
+    /**
+     * The number of rounds lost.
+     * @return rounds lost.
+     */
+    public int getRoundsLost() {
+        return roundsPlayed - roundsWon;
     }
 
     /**

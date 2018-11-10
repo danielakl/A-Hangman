@@ -32,6 +32,7 @@ public class GameActivity extends FullscreenActivity {
 
     private TextView wordView;
     private TextView roundsView;
+    private TextView roundsLostView;
     private TextView roundsWonView;
 
     @Override
@@ -41,6 +42,7 @@ public class GameActivity extends FullscreenActivity {
 
         visible = false;
         contentView = findViewById(R.id.fullscreen_content);
+        roundsLostView = findViewById(R.id.rounds_lost_view);
         wordView = findViewById(R.id.word_view);
         roundsView = findViewById(R.id.rounds_view);
         roundsWonView = findViewById(R.id.rounds_won_view);
@@ -67,6 +69,7 @@ public class GameActivity extends FullscreenActivity {
             gameManager = GameManager.initialize(preferences);
             game = gameManager.createGame();
             roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
+            roundsLostView.setText(getResources().getString(R.string.rounds_lost, game.getRoundsLost()));
             roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
             updateWord();
         }
@@ -133,6 +136,7 @@ public class GameActivity extends FullscreenActivity {
                 updateWord();
             }
             roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
+            roundsLostView.setText(getResources().getString(R.string.rounds_lost, game.getRoundsLost()));
             roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
             checkGameState();
         }
