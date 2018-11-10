@@ -65,6 +65,7 @@ public final class Game {
     public boolean guess(char guess) {
         boolean correctGuess = false;
         if (chancesLeft > 0 && !hasWon) {
+            // Insert guessed character if it exists in the current word.
             StringBuilder sb = new StringBuilder(displayWord);
             char[] word = currentWord.content.toCharArray();
             for (int i = 0; i < word.length; i++) {
@@ -74,6 +75,7 @@ public final class Game {
                 }
             }
             displayWord = sb.toString();
+
             if (!displayWord.contains("?")) {
                 roundsPlayed++;
                 roundsWon++;
@@ -81,6 +83,9 @@ public final class Game {
             }
             if (!correctGuess) {
                 chancesLeft--;
+                if (chancesLeft == 0) {
+                    roundsPlayed++;
+                }
             }
         }
         return correctGuess;
@@ -132,6 +137,14 @@ public final class Game {
      */
     public int getRoundsWon() {
         return roundsWon;
+    }
+
+    /**
+     * The number of rounds lost.
+     * @return rounds lost.
+     */
+    public int getRoundsLost() {
+        return roundsPlayed - roundsWon;
     }
 
     /**
