@@ -49,7 +49,6 @@ public class GameActivity extends FullscreenActivity {
 
         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(view -> toggle());
-
         hide();
     }
 
@@ -83,13 +82,6 @@ public class GameActivity extends FullscreenActivity {
         langIndex = null;
         game.close();
         super.onBackPressed();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        langIndex = null;
-        game.close();
     }
 
     @Override
