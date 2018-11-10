@@ -1,6 +1,7 @@
 package no.daniel.hangman.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -39,6 +40,12 @@ public class MainMenuActivity extends FullscreenActivity {
                 break;
             case R.id.tutorial_button:
                 // TODO: Implement popup with a description of how to play.
+                new AlertDialog.Builder(this)
+                        .setTitle(R.string.alert_title_tutorial)
+                        .setMessage(R.string.alert_text_tutorial)
+                        .setIcon(android.R.drawable.ic_dialog_info)
+                        .setPositiveButton(R.string.alert_positive_tutorial, (dialog, which) -> { })
+                        .create().show();
                 break;
             case R.id.settings_button:
                 startSettings();

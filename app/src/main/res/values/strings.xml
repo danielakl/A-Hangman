@@ -7,6 +7,11 @@
     <string name="menu_option_tutorial">How to Play</string>
     <string name="menu_option_settings">Settings</string>
     <string name="menu_option_exit">Exit</string>
+    <string name="alert_title_tutorial">How to Play</string>
+    <string name="alert_text_tutorial">The goal of the game is to guess a word before the innocent
+        stick figure gets hanged. You guess the word by guessing on letter the word might contain.
+        If you guess wrong the figure gets gradually closer to being hanged.</string>
+    <string name="alert_positive_tutorial">OK</string>
 
     <!-- Game strings -->
     <string name="title_activity_game">Game activity</string>
