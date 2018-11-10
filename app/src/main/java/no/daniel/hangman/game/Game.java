@@ -116,6 +116,14 @@ public final class Game {
     }
 
     /**
+     * Get the secret word that the user is trying to guess.
+     * @return the secret word.
+     */
+    public String getSecretWord() {
+        return currentWord.content;
+    }
+
+    /**
      * The total number of rounds you can play.
      * @return total number of rounds.
      */

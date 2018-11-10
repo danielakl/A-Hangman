@@ -2,9 +2,14 @@ package no.daniel.hangman.ui;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,6 +24,7 @@ import android.widget.TextView;
 
 import androidx.core.app.NavUtils;
 
+import androidx.core.content.ContextCompat;
 import no.daniel.hangman.R;
 import no.daniel.hangman.game.Game;
 import no.daniel.hangman.game.GameManager;
@@ -34,6 +40,8 @@ public class GameActivity extends FullscreenActivity {
     private Game game;
     private String langIndex;
 
+    private AudioManager audioManager;
+
     private TextView roundsView;
     private TextView roundsLostView;
     private TextView roundsWonView;
@@ -45,6 +53,16 @@ public class GameActivity extends FullscreenActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        // Setup audio
+        audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        int maxVolume = 0;
+        int currentVolume = 0;
+        if (audioManager != null) {
+            maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            currentVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        }
+
+        // Get views
         visible = false;
         contentView = findViewById(R.id.fullscreen_content);
         roundsView = findViewById(R.id.rounds_view);
@@ -61,6 +79,10 @@ public class GameActivity extends FullscreenActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        start();
+    }
+
+    private void start() {
         // Setup language.
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String language = preferences.getString("list_language", "0");
@@ -80,6 +102,7 @@ public class GameActivity extends FullscreenActivity {
             roundsLostView.setText(getResources().getString(R.string.rounds_lost, game.getRoundsLost()));
             roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
             hangmanView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hangman_0));
+            wordView.setTextColor(ContextCompat.getColor(this, R.color.colorBlack));
             updateWord();
         }
     }
@@ -146,24 +169,41 @@ public class GameActivity extends FullscreenActivity {
 
     private void checkGameState() {
         if (game.hasWon() || game.getChancesLeft() <= 0) {
+            int duration;
+            MediaPlayer mediaPlayer;
             if (game.hasWon()) {
-                // TODO: Play win sound
+                mediaPlayer = MediaPlayer.create(this, R.raw.win);
+                duration = mediaPlayer.getDuration();
+                wordView.setTextColor(ContextCompat.getColor(this, R.color.colorCorrect));
                 roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
             } else {
-                // TODO: Play loss sound
+                mediaPlayer = MediaPlayer.create(this, R.raw.lose);
+                duration = mediaPlayer.getDuration();
+                wordView.setText(game.getSecretWord());
+                wordView.setTextColor(ContextCompat.getColor(this, R.color.colorWrong));
                 roundsLostView.setText(getResources().getString(R.string.rounds_lost, game.getRoundsLost()));
             }
+            mediaPlayer.start();
             roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
 
-            // TODO: Wait a short while
-            game = game.nextGame();
-            if (Game.INSTANCE == null) {
-                // TODO: Play victory sound
-                // TODO: Display victory dialog -> send to main menu
-                exit();
-            } else {
-                reset();
-            }
+            new Handler().postDelayed(() -> {
+                game = game.nextGame();
+                if (Game.INSTANCE == null) {
+                    new AlertDialog.Builder(this)
+                            .setTitle(R.string.alert_title_endgame)
+                            .setMessage(R.string.alert_text_endgame)
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .setPositiveButton(R.string.alert_positive_endgame, (dialog, which) -> {
+                                langIndex = null;
+                                start();
+                            })
+                            .setNegativeButton(R.string.alert_negative_endgame, ((dialog, which) -> exit()))
+                            .setOnCancelListener(dialog -> exit())
+                            .create().show();
+                } else {
+                    reset();
+                }
+            }, duration + 500);
         }
     }
 
@@ -218,6 +258,7 @@ public class GameActivity extends FullscreenActivity {
     }
 
     private void reset() {
+        wordView.setTextColor(ContextCompat.getColor(this, R.color.colorBlack));
         updateWord();
         setupKeyboard();
         hangmanView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hangman_0));

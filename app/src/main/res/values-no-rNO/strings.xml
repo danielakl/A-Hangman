@@ -11,4 +11,13 @@
     <string name="rounds_won">Vunnet: %d</string>
     <string name="rounds_lost">Tapt: %d</string>
     <string name="rounds_progress">Runder: %1$d/%2$d</string>
+    <string name="alert_title_tutorial">Hvordan Spille</string>
+    <string name="alert_positive_tutorial">OK</string>
+    <string name="alert_title_endgame">Spille igjen?</string>
+    <string name="alert_positive_endgame">Ja</string>
+    <string name="alert_negative_endgame">Nei</string>
+    <string name="alert_text_endgame">Vil du starte et nytt spill?</string>
+    <string name="alert_text_tutorial">Målet med spillet er å gjette et ord før den uskyldige
+        strekfiguren blir hunget. Du gjetter ordet ved å gjette på hvilke bokstaver som er i ordet.
+        Hver gang en gjetter feil vil figuren gradvis komme nermere å bli hengt.</string>
 </resources>
