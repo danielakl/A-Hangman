@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import java.util.Collections;
 import java.util.List;
 
-import no.daniel.hangman.data.dao.WordDAO;
+import no.daniel.hangman.data.dao.WordFileDAO;
 import no.daniel.hangman.data.entity.Word;
 import no.daniel.hangman.util.Language;
 
@@ -68,6 +68,6 @@ public final class GameManager {
     }
 
     private static List<Word> getWords(Language language) {
-        return new WordDAO().get(language, 0);
+        return new WordFileDAO().get(language, 0);
     }
 }
