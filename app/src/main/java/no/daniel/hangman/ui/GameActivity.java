@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.preference.PreferenceManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.core.app.NavUtils;
@@ -26,14 +28,17 @@ import no.daniel.hangman.game.GameManager;
  * status bar and navigation/system bar) with user interaction.
  */
 public class GameActivity extends FullscreenActivity {
-    private static GameManager gameManager;
+    private static final int CHANCES = 10;
+    private static final int[] hangmanImages = setupImages();
+
     private Game game;
     private String langIndex;
 
-    private TextView wordView;
     private TextView roundsView;
     private TextView roundsLostView;
     private TextView roundsWonView;
+    private ImageView hangmanView;
+    private TextView wordView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +47,11 @@ public class GameActivity extends FullscreenActivity {
 
         visible = false;
         contentView = findViewById(R.id.fullscreen_content);
-        roundsLostView = findViewById(R.id.rounds_lost_view);
-        wordView = findViewById(R.id.word_view);
         roundsView = findViewById(R.id.rounds_view);
+        roundsLostView = findViewById(R.id.rounds_lost_view);
         roundsWonView = findViewById(R.id.rounds_won_view);
+        hangmanView = findViewById(R.id.hangman_view);
+        wordView = findViewById(R.id.word_view);
 
         // Set up the user interaction to manually show or hide the system UI.
         contentView.setOnClickListener(view -> toggle());
@@ -60,16 +66,21 @@ public class GameActivity extends FullscreenActivity {
         String language = preferences.getString("list_language", "0");
         if (langIndex == null || !langIndex.equals(language)) {
             langIndex = language;
+            if (game != null) {
+                game.close();
+            }
+
 
             // Setup keyboard.
             setupKeyboard();
 
             // Initialize game logic.
-            gameManager = GameManager.initialize(preferences);
-            game = gameManager.createGame();
+            GameManager gameManager = GameManager.initialize(preferences);
+            game = gameManager.createGame(CHANCES);
             roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
             roundsLostView.setText(getResources().getString(R.string.rounds_lost, game.getRoundsLost()));
             roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
+            hangmanView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hangman_0));
             updateWord();
         }
     }
@@ -126,29 +137,34 @@ public class GameActivity extends FullscreenActivity {
             }).start();
             if (game.guess(button.getText().charAt(0))) {
                 updateWord();
+            } else {
+                hangmanView.setImageBitmap(BitmapFactory.decodeResource(getResources(),
+                        hangmanImages[CHANCES - game.getChancesLeft()]));
             }
-            roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
-            roundsLostView.setText(getResources().getString(R.string.rounds_lost, game.getRoundsLost()));
-            roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
             checkGameState();
         }
     }
 
     private void checkGameState() {
-        if (game == null || game.hasWon() || game.getChancesLeft() <= 0) {
-            if (game == null) {
-                // TODO: Play victory sound
-                // TODO: Display victory dialog -> send to main menu
-                finish();
-            } else if (game.hasWon()) {
+        if (game.hasWon() || game.getChancesLeft() <= 0) {
+            if (game.hasWon()) {
                 // TODO: Play win sound
+                roundsWonView.setText(getResources().getString(R.string.rounds_won, game.getRoundsWon()));
             } else {
                 // TODO: Play loss sound
+                roundsLostView.setText(getResources().getString(R.string.rounds_lost, game.getRoundsLost()));
             }
+            roundsView.setText(getResources().getString(R.string.rounds_progress, game.getRoundsPlayed(), game.getRounds()));
+
             // TODO: Wait a short while
             game = game.nextGame();
-            updateWord();
-            setupKeyboard();
+            if (Game.INSTANCE == null) {
+                // TODO: Play victory sound
+                // TODO: Display victory dialog -> send to main menu
+                exit();
+            } else {
+                reset();
+            }
         }
     }
 
@@ -160,6 +176,22 @@ public class GameActivity extends FullscreenActivity {
             ((ViewGroup) keyboard.getParent()).removeView(keyboard);
         }
         LayoutInflater.from(this).inflate(keyboards[index % keyboards.length], (ViewGroup) contentView);
+    }
+
+    private static int[] setupImages() {
+        int[] images = new int[CHANCES + 1];
+        images[0] = R.drawable.hangman_0;
+        images[1] = R.drawable.hangman_1;
+        images[2] = R.drawable.hangman_2;
+        images[3] = R.drawable.hangman_3;
+        images[4] = R.drawable.hangman_4;
+        images[5] = R.drawable.hangman_5;
+        images[6] = R.drawable.hangman_6;
+        images[7] = R.drawable.hangman_7;
+        images[8] = R.drawable.hangman_8;
+        images[9] = R.drawable.hangman_9;
+        images[10] = R.drawable.hangman_10;
+        return images;
     }
 
     private void updateWord() {
@@ -181,6 +213,14 @@ public class GameActivity extends FullscreenActivity {
     }
 
     private void exit() {
+        langIndex = null;
+        game.close();
         finishAndRemoveTask();
+    }
+
+    private void reset() {
+        updateWord();
+        setupKeyboard();
+        hangmanView.setImageBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.hangman_0));
     }
 }

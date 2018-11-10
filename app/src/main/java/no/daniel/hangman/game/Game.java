@@ -7,7 +7,7 @@ import java.util.Queue;
 import no.daniel.hangman.data.entity.Word;
 
 public final class Game {
-    private static Game INSTANCE;
+    public static Game INSTANCE;
 
     /**
      * These immutable properties are the same for each round played.
@@ -100,7 +100,7 @@ public final class Game {
     public Game nextGame() {
         if (chancesLeft <= 0 || hasWon) {
             if (!reset()) {
-                return null;
+                close();
             }
         }
         return this;

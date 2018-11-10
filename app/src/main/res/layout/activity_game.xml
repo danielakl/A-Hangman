@@ -53,6 +53,19 @@
 
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/hangman_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/hangman_0"
+            app:layout_constraintTop_toBottomOf="@id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="TODO" />
+
         <!-- ref: https://stackoverflow.com/questions/5033012/auto-scale-textview-text-to-fit-within-bounds -->
         <TextView
             android:id="@+id/word_view"
@@ -71,7 +84,7 @@
             android:fontFamily="monospace"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/hangman_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

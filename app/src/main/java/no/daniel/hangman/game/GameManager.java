@@ -50,7 +50,7 @@ public final class GameManager {
     /**
      * Change the language a game uses, any ongoing games must be closed and
      * recreated to take effect. Use the game's close function, then create a
-     * new one with {@link #createGame()}.
+     * new one with {@link #createGame(int)}.
      * @param language the language a game will use.
      */
     public void setLanguage(Language language) {
@@ -62,9 +62,9 @@ public final class GameManager {
      * Create a game session.
      * @return a Game session.
      */
-    public Game createGame() {
+    public Game createGame(int chances) {
         Collections.shuffle(words);
-        return Game.session(words, 11);
+        return Game.session(words, chances);
     }
 
     private static List<Word> getWords(Language language) {
