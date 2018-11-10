@@ -66,10 +66,9 @@ public class GameActivity extends FullscreenActivity {
         String language = preferences.getString("list_language", "0");
         if (langIndex == null || !langIndex.equals(language)) {
             langIndex = language;
-            if (game != null) {
+            if (Game.INSTANCE != null) {
                 game.close();
             }
-
 
             // Setup keyboard.
             setupKeyboard();
@@ -90,9 +89,8 @@ public class GameActivity extends FullscreenActivity {
      */
     @Override
     public void onBackPressed() {
-        langIndex = null;
-        game.close();
         super.onBackPressed();
+        exit();
     }
 
     @Override
@@ -109,6 +107,7 @@ public class GameActivity extends FullscreenActivity {
             case android.R.id.home:
                 // This ID represents the Home or Up button.
                 NavUtils.navigateUpFromSameTask(this);
+                exit();
                 return true;
             case R.id.menu_settings:
                 startSettings();
